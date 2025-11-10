@@ -18,6 +18,7 @@
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
   },
   "dependencies": {
+    "@base-ui-components/react": "1.0.0-beta.4",
     "@payloadcms/db-postgres": "3.62.1",
     "@payloadcms/next": "3.62.1",
     "@payloadcms/richtext-lexical": "3.62.1",

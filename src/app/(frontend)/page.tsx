@@ -1,12 +1,5 @@
-import React from "react"
-import { SidebarShell, MainbarShell  } from "@/app/(frontend)/Dashboard/dashboard"
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return (
-    
-      <SidebarShell>
-          <MainbarShell> </MainbarShell>
-      </SidebarShell>
-      
-  )
+  redirect("/dashboard");
 }

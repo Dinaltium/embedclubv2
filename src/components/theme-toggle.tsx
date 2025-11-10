@@ -19,8 +19,7 @@ export function ModeToggle() {
 
   if (!mounted) {
     return (
-      <button aria-label="Toggle theme">
-        <Sun />
+      <button>
       </button>
     )
   }

@@ -41,7 +41,7 @@ const data = {
   navMain: [
     {
       title: "Home",
-      url: "/",
+      url: "/dashboard",
       icon: LucideHome,
     },
   ],
@@ -57,7 +57,7 @@ const data = {
         },
         {
           title: "Achievements",
-          url: "#",
+          url: "/achievements",
           icon: Trophy,
         },
       ],
@@ -68,17 +68,17 @@ const data = {
       items: [
         {
           title: "Resources",
-          url: "#",
+          url: "/resources",
           icon: Boxes,
         },
         {
           title: "Tutorials",
-          url: "#",
+          url: "/tutorials",
           icon: School,
         },
         {
           title: "Simulators",
-          url: "#",
+          url: "/simulators",
           icon: Bot,
         },
       ],
@@ -88,13 +88,13 @@ const data = {
 
     {
       title: "Gallery",
-      url: "#",
+      url: "/gallery",
       icon: Images,
     },
 
     {
       title: "Members",
-      url: "#",
+      url: "/members",
       icon: UsersRound,
     },
 
@@ -102,17 +102,17 @@ const data = {
   navBottom: [
       {
       title: "Feedback",
-      url: "#",
+      url: "/feedback",
       icon: SquareTerminal,
     },
     {
       title: "Support",
-      url: "#",
+      url: "/support",
       icon: Settings2,
     },
     {
       title: "Contact",
-      url: "#",
+      url: "/contact",
       icon: SquareTerminal,
     },
     
