@@ -1,5 +1,5 @@
 import React from 'react'
-import { PortableTextRender } from '@/components/RichTextRender'
+import { PortableTextRender } from './RichTextRender'
 export default function AchievementCard({ item }: { item: any }) {
   const { title, summary, date, image, layout } = item
   const imgUrl = image?.url || null

@@ -30,7 +30,6 @@ export default function Loading() {
     <div className="flex items-center justify-center h-screen w-full">
       <Progress value={progress} className="w-[300px] space-y-2">
         <div className="flex items-center justify-between gap-1">
-          <ProgressLabel>Loading dashboard</ProgressLabel>
           <span className="text-sm">
             <ProgressValue />%
           </span>
