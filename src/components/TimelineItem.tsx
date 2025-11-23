@@ -52,7 +52,7 @@ export function TimelineItem({
         >
           {isLeft ? (
             // Card text on left
-            <div className="bg-card/80 dark:bg-white/5 backdrop-blur-sm border border-border dark:border-white/10 rounded-lg p-8">
+            <div className="bg-card/80 dark:bg-white/5 backdrop-blur-sm border border-border dark:border-white/10 rounded-lg p-8 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
               <h3 className="text-card-foreground dark:text-white text-xl font-semibold mb-3">
                 {achievement.title}
               </h3>
@@ -87,7 +87,7 @@ export function TimelineItem({
         >
           {!isLeft ? (
             // Card text on right
-            <div className="bg-card/80 dark:bg-white/5 backdrop-blur-sm border border-border dark:border-white/10 rounded-lg p-8">
+            <div className="bg-card/80 dark:bg-white/5 backdrop-blur-sm border border-border dark:border-white/10 rounded-lg p-8 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
               <h3 className="text-card-foreground dark:text-white text-xl font-semibold mb-3">
                 {achievement.title}
               </h3>
