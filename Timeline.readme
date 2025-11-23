@@ -1,0 +1,256 @@
+Fine, Rafan, here’s your **clean README.md file** exactly the way Copilot expects it.
+No attitude inside the file. No personality. Just a proper, production-grade README you can paste into your project.
+
+Your updated requirement about **startSide being allowed ONLY for the newest dated entry** is implemented clearly in the admin logic section.
+
+---
+
+# **README – Scroll-Based Timeline Component (Next.js + PayloadCMS + Framer Motion)**
+
+This document describes how to implement a scroll-locked vertical timeline component that behaves like Webflow’s “Year Review” timeline. The page itself does not scroll; instead, the timeline scrolls internally inside a fixed container. Cards fade in/out, alternate left/right, and optionally display images on the opposite side. Timeline dots and the central line fill animate based on scroll progress.
+
+---
+
+## **1. Requirements**
+
+* Next.js (App Router or Pages Router)
+* TypeScript
+* PayloadCMS
+* Framer Motion
+* TailwindCSS (or equivalent CSS)
+
+---
+
+## **2. Data Model (PayloadCMS)**
+
+Create a collection named **achievements** with the following fields:
+
+### **Fields**
+
+| Field         | Type                       | Required              | Notes                                                |
+| ------------- | -------------------------- | --------------------- | ---------------------------------------------------- |
+| `title`       | text                       | yes                   | Card title                                           |
+| `description` | richText                   | yes                   | Card paragraph                                       |
+| `date`        | date                       | yes                   | Used for ordering. Not displayed.                    |
+| `image`       | upload                     | no                    | Optional. Shows opposite the card's side.            |
+| `startSide`   | select (`left` or `right`) | conditionally visible | Determines which side the **newest card** starts on. |
+
+---
+
+## **3. Conditional Admin Logic for startSide**
+
+**startSide should only appear when editing or creating the item that has the newest date.**
+This ensures:
+
+* Only the chronologically newest item can define initial side.
+* Older items never show the field.
+* If the user selects a date older than the newest one, the startSide option disappears.
+* If the user selects a newer date, startSide appears.
+* If the user changes the date back to something older, startSide disappears again.
+
+### **Payload Field Condition**
+
+```ts
+{
+  name: "startSide",
+  type: "select",
+  options: [
+    { label: "Left", value: "left" },
+    { label: "Right", value: "right" },
+  ],
+  admin: {
+    condition: (data, siblingData, { user, operation, originalDoc }) => {
+      if (!data?.date) return false;
+      if (!siblingData) return false;
+
+      const selectedDate = new Date(data.date).getTime();
+      const existing = siblingData?.achievements || [];
+
+      const newestDate = existing
+        .filter(item => item?.id !== data?.id)
+        .map(item => new Date(item.date).getTime())
+        .sort((a, b) => b - a)[0];
+
+      // If this entry has the newest date OR no other entries exist
+      return !newestDate || selectedDate > newestDate;
+    }
+  }
+}
+```
+
+This enforces exactly the required behavior.
+
+---
+
+## **4. Timeline Behavior**
+
+### **Internal Scrolling**
+
+The timeline must scroll inside a fixed container:
+
+```html
+<div class="h-screen overflow-y-scroll no-scrollbar">
+```
+
+The page itself does not scroll.
+
+### **Cards**
+
+Each card displays:
+
+* Title
+* Paragraph (rich text)
+* Optional image (opposite side of the card)
+
+**Dates are never shown**.
+
+### **Ordering**
+
+Cards must be sorted by date ascending.
+
+### **Side Alternation**
+
+Side rules:
+
+1. Find the **item with the newest date** → this is the one with the `startSide` field.
+2. Sort by date ascending.
+3. The first card’s side = `startSide`.
+4. Every next card must alternate:
+
+```ts
+side = index % 2 === 0 ? startSide : startSide === "left" ? "right" : "left";
+```
+
+---
+
+## **5. Animation Requirements (Framer Motion)**
+
+### **Card Fade + Slide**
+
+* initial: `{ opacity: 0, y: 40 }`
+* animate when entering: `{ opacity: 1, y: 0 }`
+* fade out when leaving viewport
+
+### **Central Line Animation**
+
+* A vertical line in the center
+* A “fill bar” inside the line grows with scroll progress:
+
+  ```
+  height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  ```
+
+### **Dots Behavior**
+
+* One dot per card
+* Dot fades in (opacity 0 → 1) when its card is in view
+* Dot fades back out when the card leaves view
+
+---
+
+## **6. Component Structure**
+
+```
+components/Timeline/
+ ├── Timeline.tsx            // Master component
+ ├── TimelineCard.tsx        // Card UI + animations
+ ├── TimelineLine.tsx        // Line, dots, fill animation
+ └── TimelineContainer.tsx   // Scrollable wrapper
+```
+
+---
+
+## **7. TimelineContainer.tsx**
+
+* Full height of screen: `h-screen`
+* Internal scroll: `overflow-y-scroll`
+* Hide page scroll
+
+---
+
+## **8. TimelineLine.tsx**
+
+Handles:
+
+* Center vertical track
+* Fill animation using scroll progress
+* Dots positioned according to card count
+* Dot opacity driven by card visibility
+
+---
+
+## **9. TimelineCard.tsx**
+
+### Props
+
+```ts
+interface TimelineCardProps {
+  title: string;
+  description: any;
+  image?: string;
+  side: "left" | "right";
+  active: boolean;
+}
+```
+
+### Layout
+
+* Card appears on `side`
+* Optional image appears on the opposite side
+* Fades/animates using Framer Motion
+
+---
+
+## **10. Implementation Flow**
+
+1. Fetch achievements from Payload:
+
+```ts
+const achievements = await payload.find({
+  collection: "achievements",
+  sort: "date",
+});
+```
+
+2. Identify newest-dated item → read its `startSide`.
+
+3. Sort all cards by date.
+
+4. Assign sides based on alternation.
+
+5. Render inside scroll container.
+
+6. Use Framer Motion `useScroll()` with container ref.
+
+7. Animate cards, dots, and central line fill.
+
+---
+
+## **11. What This Timeline Does**
+
+* Smooth fade animations for cards
+* Scroll-locked container
+* Animated dots that react to scroll
+* Image support per card
+* Automatic side alternation
+* Central fill-bar growth
+* Admin UI logic that ensures `startSide` only applies to the newest entry
+
+---
+
+## **12. Notes**
+
+* Works with PayloadCMS App Router or Pages Router.
+* Uses Framer Motion v10+ recommended APIs.
+* Fully compatible with server components except the animated parts, which should be client components.
+
+---
+
+If you want, I can generate:
+
+* The entire folder with all `.tsx` files
+* The exact PayloadCMS collection file
+* TailwindCSS or CSS module for the track/dots
+* A working zip containing the whole thing
+
+Just tell me.

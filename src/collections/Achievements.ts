@@ -1,60 +1,65 @@
 import type { CollectionConfig } from 'payload'
 
 export const Achievements: CollectionConfig = {
-    slug: 'achievements',
-    admin: {
-        useAsTitle: 'title',
-        description: 'List of Achievements',
+  slug: 'achievements',
+  admin: {
+    useAsTitle: 'title',
+    description: 'Achievements for the timeline page - ordered by date (newest first)',
+    defaultColumns: ['title', 'date', 'image'],
+  },
+  access: {
+    read: () => true,
+  },
+  fields: [
+    // Title - shown to editors in admin (used internally, not displayed on timeline)
+    { 
+      name: 'title', 
+      label: 'Title', 
+      type: 'text', 
+      required: true,
+      admin: {
+        description: 'Internal title for organization (not shown on public timeline)',
+      },
     },
-    access: {
-        read: () => true,
+
+    // Summary - Rich text editor (lexical). This becomes the card text on the timeline.
+    {
+      name: 'summary',
+      label: 'Achievement Text',
+      type: 'richText',
+      required: true,
+      admin: {
+        description: 'The text content that will appear on the timeline card',
+      },
     },
-    fields: [
-    { name: 'title', label: 'Title', type: 'text', required: true },
-        {
-            name: 'summary',
-            label: 'Summary / Short text',
-            type: 'richText',
-            required: true,
+
+    // Date - required for ordering achievements (newest first)
+    {
+      name: 'date',
+      label: 'Achievement Date',
+      type: 'date',
+      required: true,
+      admin: {
+        description: 'Date of the achievement (determines order on timeline - newest first)',
+        date: { 
+          pickerAppearance: 'dayAndTime',
+          displayFormat: 'MMM d, yyyy',
         },
-        {
-            name: 'date',
-            label: 'Date',
-            type: 'date',
-            admin: {date: { pickerAppearance: 'dayAndTime' }},
-        },
-        {
-            name: 'image',
-            label: 'Image (optional)',
-            type: 'relationship',
-            relationTo: 'media',
-            required: false,
-            admin: {
-                description: 'Select an existing media item to use as the image for this achievement.',
-            },
-        },
-        {
-            name: 'order',
-            label: 'Order',
-            type: 'number',
-            admin: {
-                description: 'Lower numbers appear first'
-            },
-            defaultValue: 0,
-        },
-        {
-            name: 'layout',
-            label: 'Layout / Visual style',
-            type: 'select',
-            options: [
-                { label: 'Card (image left)', value: 'card-left' },
-                { label: 'Card (image right)', value: 'card-right' },
-                { label: 'Centered', value: 'centered' },
-            ],
-            defaultValue: 'card-left',
-            admin: { description: 'Choose a layout variant for this item. '},
-        },
-    ],
+      },
+    },
+
+    // Optional image - will appear on opposite side of text on timeline
+    {
+      name: 'image',
+      label: 'Image (optional)',
+      type: 'relationship',
+      relationTo: 'media',
+      required: false,
+      admin: {
+        description: 'Optional image - will appear opposite the text card on the timeline',
+      },
+    },
+  ],
 }
 
-export default Achievements;
+export default Achievements

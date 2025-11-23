@@ -161,14 +161,20 @@ export interface Media {
   focalY?: number | null;
 }
 /**
- * List of Achievements
+ * Achievements for the timeline page - ordered by date (newest first)
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "achievements".
  */
 export interface Achievement {
   id: number;
+  /**
+   * Internal title for organization (not shown on public timeline)
+   */
   title: string;
+  /**
+   * The text content that will appear on the timeline card
+   */
   summary: {
     root: {
       type: string;
@@ -184,19 +190,14 @@ export interface Achievement {
     };
     [k: string]: unknown;
   };
-  date?: string | null;
   /**
-   * Select an existing media item to use as the image for this achievement.
+   * Date of the achievement (determines order on timeline - newest first)
+   */
+  date: string;
+  /**
+   * Optional image - will appear opposite the text card on the timeline
    */
   image?: (number | null) | Media;
-  /**
-   * Lower numbers appear first
-   */
-  order?: number | null;
-  /**
-   * Choose a layout variant for this item.
-   */
-  layout?: ('card-left' | 'card-right' | 'centered') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -327,8 +328,6 @@ export interface AchievementsSelect<T extends boolean = true> {
   summary?: T;
   date?: T;
   image?: T;
-  order?: T;
-  layout?: T;
   updatedAt?: T;
   createdAt?: T;
 }
