@@ -4,7 +4,6 @@ export const Achievements: CollectionConfig = {
   slug: 'achievements',
   admin: {
     useAsTitle: 'title',
-    description: 'Achievements for the timeline page - ordered by date (newest first)',
     defaultColumns: ['title', 'date', 'image'],
   },
   access: {
@@ -17,20 +16,14 @@ export const Achievements: CollectionConfig = {
       label: 'Title', 
       type: 'text', 
       required: true,
-      admin: {
-        description: 'Internal title for organization (not shown on public timeline)',
-      },
     },
 
     // Summary - Rich text editor (lexical). This becomes the card text on the timeline.
     {
       name: 'summary',
-      label: 'Achievement Text',
+      label: 'Description',
       type: 'richText',
       required: true,
-      admin: {
-        description: 'The text content that will appear on the timeline card',
-      },
     },
 
     // Date - required for ordering achievements (newest first)
@@ -40,7 +33,7 @@ export const Achievements: CollectionConfig = {
       type: 'date',
       required: true,
       admin: {
-        description: 'Date of the achievement (determines order on timeline - newest first)',
+        description: 'Date of the achievement (newest first)',
         date: { 
           pickerAppearance: 'dayAndTime',
           displayFormat: 'MMM d, yyyy',
@@ -55,9 +48,6 @@ export const Achievements: CollectionConfig = {
       type: 'relationship',
       relationTo: 'media',
       required: false,
-      admin: {
-        description: 'Optional image - will appear opposite the text card on the timeline',
-      },
     },
   ],
 }

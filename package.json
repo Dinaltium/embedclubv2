@@ -33,6 +33,7 @@
     "dotenv": "16.4.7",
     "framer-motion": "^12.23.24",
     "graphql": "^16.8.1",
+    "leaflet": "^1.9.4",
     "lightswind": "^3.1.18",
     "lucide-react": "^0.553.0",
     "motion": "^12.23.24",

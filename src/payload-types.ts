@@ -161,20 +161,12 @@ export interface Media {
   focalY?: number | null;
 }
 /**
- * Achievements for the timeline page - ordered by date (newest first)
- *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "achievements".
  */
 export interface Achievement {
   id: number;
-  /**
-   * Internal title for organization (not shown on public timeline)
-   */
   title: string;
-  /**
-   * The text content that will appear on the timeline card
-   */
   summary: {
     root: {
       type: string;
@@ -191,12 +183,9 @@ export interface Achievement {
     [k: string]: unknown;
   };
   /**
-   * Date of the achievement (determines order on timeline - newest first)
+   * Date of the achievement (newest first)
    */
   date: string;
-  /**
-   * Optional image - will appear opposite the text card on the timeline
-   */
   image?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;

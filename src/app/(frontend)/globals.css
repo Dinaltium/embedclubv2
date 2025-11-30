@@ -82,3 +82,11 @@
     @apply bg-background text-foreground;
   }
 }
+body {
+  cursor: none !important;
+}
+
+/* Ensure cursor is hidden on all elements */
+* {
+  cursor: none !important;
+}
