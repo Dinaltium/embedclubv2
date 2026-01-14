@@ -25,14 +25,12 @@ function ProgressTrack({ className, ...props }: ProgressTrackProps) {
   return (
     <ProgressTrackPrimitive
       className={cn(
-        // Use foreground-based colors so the indicator contrasts in both themes
-        'bg-foreground/20 relative h-2 w-full overflow-hidden rounded-full',
+        'bg-primary/20 relative h-2 w-full overflow-hidden rounded-full',
         className,
       )}
       {...props}
     >
-      {/* indicator uses foreground color to ensure contrast in dark and light themes */}
-      <ProgressIndicatorPrimitive className="bg-foreground rounded-full h-full w-full flex-1" />
+      <ProgressIndicatorPrimitive className="bg-primary rounded-full h-full w-full flex-1" />
     </ProgressTrackPrimitive>
   );
 }

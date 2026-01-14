@@ -15,7 +15,7 @@ export default function DashboardTitle() {
           sequential={true}
           speed={70}
           maxIterations={10}
-          animateOn="both"
+          animateOn="view"
         />
       </div>
     </div>
